@@ -23,6 +23,7 @@ export class HomePage {
         this.products = result;
       });
   }
+  
 
   addProduct() {
     this.navCtrl.push('EditProductPage');
