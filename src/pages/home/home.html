@@ -1,25 +1,26 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Lista de produtos
+      Lista de restaurantes
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-searchbar (ionInput)="filterProducts($event)" [(ngModel)]="searchText"></ion-searchbar>
+  <ion-searchbar (ionInput)="filterRestaurant($event)" [(ngModel)]="searchText"></ion-searchbar>
   <ion-list>
-    <ion-item-sliding *ngFor="let product of products">
+    <ion-item-sliding *ngFor="let restaurant of restaurants">
 
-      <button ion-item (click)="editProduct(product.id)">
-        <h1>{{ product.name }}</h1>
-        <h2>{{ product.category_name }}</h2>
-        <h2>{{ product.duedate | date:'dd/MM/yyyy' }}</h2>
-        <h2 class="price">{{ product.price | currency:'BRL':true }}</h2>
+      <button ion-item (click)="editProduct(restaurant.id)">
+        <h1>{{ restaurant.name }}</h1>
+        <h2>{{ restaurant.distance }}</h2>
+        <h2>{{ restaurant.typesOfCulinary }}</h2>
+        <h2>{{ restaurant.review }}</h2>
+
       </button>
 
       <ion-item-options side="left">
-        <button ion-button color="danger" (click)="removeProduct(product)">
+        <button ion-button color="danger" (click)="removeRestauran(restaurant)">
           <ion-icon name="trash"></ion-icon>
           Excluir
         </button>
@@ -29,19 +30,18 @@
   </ion-list>
 
   <ion-fab right bottom>
-    <button ion-fab color="light" (click)="addProduct()"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab color="light" (click)="addProduct()">
+      <ion-icon name="add"></ion-icon>
+    </button>
   </ion-fab>
 
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
-    <p>Total: {{ products.length }}</p>
+
     <ion-list>
-      <ion-item no-lines>
-        <ion-label>Listar inativos</ion-label>
-        <ion-toggle name="listarInativos" [(ngModel)]="onlyInactives" (ionChange)="getAllProducts()"></ion-toggle>
-      </ion-item>
+
     </ion-list>
   </ion-toolbar>
 </ion-footer>

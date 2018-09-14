@@ -1,29 +1,28 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
-import { ProductProvider, Product } from '../../providers/product/product'
+import { RestaurantsProvider, Restaurant } from '../../providers/restaurant/restaurant'
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  products: any[] = [];
-  onlyInactives: boolean = false;
+  restaurants: any[] = [];
   searchText: string = null;
 
-  constructor(public navCtrl: NavController, private toast: ToastController, private productProvider: ProductProvider) { }
+  constructor(public navCtrl: NavController, private toast: ToastController, private restaurantProvider: RestaurantsProvider) { }
 
   ionViewDidEnter() {
     this.getAllProducts();
   }
 
   getAllProducts() {
-    this.productProvider.getAll(!this.onlyInactives, this.searchText)
+    this.restaurantProvider.getAll(this.searchText)
       .then((result: any[]) => {
-        this.products = result;
+        this.restaurants = result;
       });
   }
-  
+
 
   addProduct() {
     this.navCtrl.push('EditProductPage');
@@ -33,17 +32,17 @@ export class HomePage {
     this.navCtrl.push('EditProductPage', { id: id });
   }
 
-  removeProduct(product: Product) {
-    this.productProvider.remove(product.id)
+  removeRestaurant(restaurant: Restaurant) {
+    this.restaurantProvider.remove(restaurant.id)
       .then(() => {
-        // Removendo do array de produtos
-        var index = this.products.indexOf(product);
-        this.products.splice(index, 1);
+        
+        var index = this.restaurants.indexOf(restaurant);
+        this.restaurants.splice(index, 1);
         this.toast.create({ message: 'Produto removido.', duration: 3000, position: 'botton' }).present();
       })
   }
 
-  filterProducts(ev: any) {
+  filterRestaurant(ev: any) {
     this.getAllProducts();
   }
 

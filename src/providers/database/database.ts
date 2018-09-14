@@ -11,7 +11,7 @@ export class DatabaseProvider {
    */
   public getDB() {
     return this.sqlite.create({
-      name: 'products.db',
+      name: 'restaurants.db',
       location: 'default'
     });
   }
@@ -26,8 +26,7 @@ export class DatabaseProvider {
         // Criando as tabelas
         this.createTables(db);
 
-        // Inserindo dados padrão
-        this.insertDefaultItems(db);
+       
 
       })
       .catch(e => console.log(e));
@@ -40,34 +39,12 @@ export class DatabaseProvider {
   private createTables(db: SQLiteObject) {
     // Criando as tabelas
     db.sqlBatch([
-      ['CREATE TABLE IF NOT EXISTS categories (id integer primary key AUTOINCREMENT NOT NULL, name TEXT)'],
-      ['CREATE TABLE IF NOT EXISTS products (id integer primary key AUTOINCREMENT NOT NULL, name TEXT, price REAL, duedate DATE, active integer, category_id integer, FOREIGN KEY(category_id) REFERENCES categories(id))']
+      ['CREATE TABLE IF NOT EXISTS restaurants (id integer primary key AUTOINCREMENT NOT NULL, name TEXT,distance REAL,typesOfCulinary TEXT,review REAL )']
+
     ])
       .then(() => console.log('Tabelas criadas'))
       .catch(e => console.error('Erro ao criar as tabelas', e));
   }
 
-  /**
-   * Incluindo os dados padrões
-   * @param db
-   */
-  private insertDefaultItems(db: SQLiteObject) {
-    db.executeSql('select COUNT(id) as qtd from categories',[])
-    .then((data: any) => {
-      //Se não existe nenhum registro
-      if (data.rows.item(0).qtd == 0) {
-
-        // Criando as tabelas
-        db.sqlBatch([
-          ['insert into categories (name) values (?)', ['Hambúrgueres']],
-          ['insert into categories (name) values (?)', ['Bebidas']],
-          ['insert into categories (name) values (?)', ['Sobremesas']]
-        ])
-          .then(() => console.log('Dados padrões incluídos'))
-          .catch(e => console.error('Erro ao incluir dados padrões', e));
-
-      }
-    })
-    .catch(e => console.error('Erro ao consultar a qtd de categorias', e));
-  }
+ 
 }
