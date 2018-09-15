@@ -26,7 +26,7 @@ export class DatabaseProvider {
         // Criando as tabelas
         this.createTables(db);
 
-       
+
 
       })
       .catch(e => console.log(e));
@@ -46,5 +46,6 @@ export class DatabaseProvider {
       .catch(e => console.error('Erro ao criar as tabelas', e));
   }
 
- 
+
+
 }

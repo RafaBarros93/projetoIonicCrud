@@ -74,14 +74,8 @@ export class RestaurantsProvider {
   public getAll(name: string = null) {
     return this.dbProvider.getDB()
       .then((db: SQLiteObject) => {
-        let sql = 'select * from  restaurants ';
-        var data: any[];
-
-        // filtrando pelo nome
-        if (name) {
-          sql += 'where name like ?';
-          data.push('%' + name + '%');
-        }
+        let sql = 'SELECT * FROM restaurants where name like ?';
+        var data: any[] = ['%' + name + '%'];
 
         return db.executeSql(sql, data)
           .then((data: any) => {
@@ -96,7 +90,31 @@ export class RestaurantsProvider {
               return [];
             }
           })
-          .catch((e) => console.error(e));
+          .catch((e) => console.error('Erro na busca', e));
+      })
+      .catch((e) => console.error(e));
+  }
+
+  public getRestaurant() {
+    return this.dbProvider.getDB()
+      .then((db: SQLiteObject) => {
+        let sql = 'SELECT * FROM restaurants';
+        var data: any[] = [];
+
+        return db.executeSql(sql, data)
+          .then((data: any) => {
+            if (data.rows.length > 0) {
+              let restaurants: any[] = [];
+              for (var i = 0; i < data.rows.length; i++) {
+                var restaurant = data.rows.item(i);
+                restaurants.push(restaurant);
+              }
+              return restaurants;
+            } else {
+              return [];
+            }
+          })
+          .catch((e) => console.error('Erro na busca', e));
       })
       .catch((e) => console.error(e));
   }

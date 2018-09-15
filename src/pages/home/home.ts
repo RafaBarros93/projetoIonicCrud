@@ -10,19 +10,26 @@ export class HomePage {
   restaurants: any[] = [];
   searchText: string = null;
 
+
+
   constructor(public navCtrl: NavController, private toast: ToastController, private restaurantProvider: RestaurantsProvider) { }
 
   ionViewDidEnter() {
-    this.getAllProducts();
+    this.getAllRestaurant();
   }
 
-  getAllProducts() {
+  getAllFilterName() {
     this.restaurantProvider.getAll(this.searchText)
       .then((result: any[]) => {
         this.restaurants = result;
       });
   }
-
+  getAllRestaurant() {
+    this.restaurantProvider.getRestaurant()
+      .then((result: any[]) => {
+        this.restaurants = result;
+      });
+  }
 
   addProduct() {
     this.navCtrl.push('EditProductPage');
@@ -35,7 +42,7 @@ export class HomePage {
   removeRestaurant(restaurant: Restaurant) {
     this.restaurantProvider.remove(restaurant.id)
       .then(() => {
-        
+
         var index = this.restaurants.indexOf(restaurant);
         this.restaurants.splice(index, 1);
         this.toast.create({ message: 'Produto removido.', duration: 3000, position: 'botton' }).present();
@@ -43,7 +50,7 @@ export class HomePage {
   }
 
   filterRestaurant(ev: any) {
-    this.getAllProducts();
+    this.getAllFilterName();
   }
 
 }
